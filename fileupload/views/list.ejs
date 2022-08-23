@@ -1,0 +1,21 @@
+<%- include("include/header"); %>
+<img src="" alt="" />
+<main id="main">
+  <div id="contents">
+    <h2 class="title"><%= title %></h2>
+    <ul>
+      <% list.forEach(item,idx)=> { %>
+      <li>
+        <div><span>title:</span><%= item.title %></div>
+        <div><span>date:</span><%= item.date %></div>
+        <div><span>genre:</span><%= item.genre %></div>
+        <div><span>desc:</span><%= item.desc %></div>
+        <div><span>point:</span><%= item.point %></div>
+        <div><span>poster:</span><img src = "<%= item.poster %>"</div>
+      </li>
+      <% })%>
+    </ul>
+  </div>
+</main>
+
+<%- include("include/footer"); %>
