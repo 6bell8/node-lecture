@@ -7,11 +7,12 @@ const cloudinary = require("cloudinary");
 
 const MongoClient = require("mongodb").MongoClient;
 let db = null;
-MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
+MongoClient.connect(`mongodb+srv://parkgutime:${process.env.Mongo_URL}@cluster0.jmdlgc1.mongodb.net/?retryWrites=true&w=majority`, { useUnifiedTopology: true }, (err, client) => {
   if (err) {
     console.log(err);
   }
   db = client.db("crud");
+  console.log(db);
 });
 
 cloudinary.config({

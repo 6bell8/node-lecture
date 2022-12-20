@@ -7,7 +7,7 @@ const cloudinary = require("cloudinary");
 
 const MongoClient = require("mongodb").MongoClient;
 let db = null;
-MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
+MongoClient.connect(`mongodb+srv://parkgutime:${process.env.Mongo_URL}@cluster0.jmdlgc1.mongodb.net/?retryWrites=true&w=majority`, { useUnifiedTopology: true }, (err, client) => {
   if (err) {
     console.log(err);
   }
@@ -18,7 +18,6 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false })); // post에서 보낸 데이터 req.body로 받을려면 있어야함
 app.use(express.static(path.join(__dirname, "/public")));
 app.use("/upload", express.static(path.join(__dirname, "/upload")));
-
 app.set("port", process.env.PORT || 8099);
 const PORT = app.get("port");
 
@@ -33,37 +32,34 @@ const storage = multer.diskStorage({
     done(null, path.join(__dirname, "/upload"));
   },
   filename: (req, file, done) => {
-    // console.log(file);
     done(null, file.originalname);
   },
 });
+
 const fileUpload = multer({ storage: storage });
 
 app.get("/", (req, res) => {
-  res.send("hello node");
+  res.render("index", { title: "main" });
 });
 app.get("/insert", (req, res) => {
   res.render("insert", { title: "insert" });
 });
-
-//중간에 하나 더 들어가는 미들웨어(fileUpload)를 추가해야 eync type에서 넘어오는 form이 보임
-
+// 미들웨어
 app.post("/register", fileUpload.single("poster"), (req, res) => {
   const movieTitle = req.body.movieTitle;
   const date = req.body.date;
-  const genre = req.body.genre;
+  const genre = Array.isArray(req.body.genre) ? req.body.genre.join("/") : req.body.genre; //배열로 작성 할 때
   const desc = req.body.desc;
   const point = req.body.point;
 
-  //   console.log(movieTitle);
-  //   console.log(date);
-  //   console.log(genre);
-  //   console.log(desc);
-  //   console.log(point);
-  //   console.log(req.file); //poster /type = file 형식으로 보내짐
-  // db에 파일을 저장하는 두가지 방법,, text로 바꿔서 저장
-  // db에다가 경로만 저장하는 방법
-
+  // console.log(movieTitle);
+  // console.log(date);
+  console.log(genre);
+  // console.log(desc);
+  // console.log(point);
+  // console.log(req.file);
+  // db에 파일을 저장하는 두가지 방법....  text로 바꿔서 저장
+  // db에다가 경로만 저장 (upload/01.jpg)
   cloudinary.uploader.upload(req.file.path, (result) => {
     console.log(result);
     db.collection("movie").insertOne({
@@ -74,33 +70,29 @@ app.post("/register", fileUpload.single("poster"), (req, res) => {
       point: point,
       poster: result.url,
     });
+    res.redirect("/list");
   });
-  res.send("파일 전송 완료");
 });
 
 app.get("/list", (req, res) => {
-  res.render("list", {
-    list: [
-      {
-        title: "탑건",
-        date: "2022/08/10",
-        genre: "스릴러",
-        desc: "매버릭",
-        point: "4.5",
-        poster: "https://res.cloudinary.com/ddwyjlwg4/image/upload/v166122236b70crz1pxvoubx.png',1/g0h1udb70crz1pxvoubx.png",
-      },
-      {
-        title: "매버릭",
-        date: "2022/08/10",
-        genre: "스릴러",
-        desc: "매버릭",
-        point: "4.3",
-        poster: "https://res.cloudinary.com/ddwyjlwg4/image/upload/v166122236b70crz1pxvoubx.png',1/g0h1udb70crz1pxvoubx.png",
-      },
-    ],
+  //db읽어서
+  //list만든 다음에
+  db.collection("movie")
+    .find()
+    .toArray((err, result) => {
+      res.render("list", { list: result, title: "list" }); //   페이지 내가 만들어서 보내주기
+    });
+});
+app.get("/movie/:title", (req, res) => {
+  //console.log(req.query.id);
+  console.log(req.params.title);
+  const movieTitle = req.params.title;
+  db.collection("movie").findOne({ movieTitle: movieTitle }, (err, result) => {
+    if (result) {
+      res.render("movie", { title: "detail", result: result });
+    }
   });
 });
-
 app.listen(PORT, () => {
   console.log(`${PORT}에서 서버대기중`);
 });

@@ -8,7 +8,6 @@
         <label>
           <span class="label">ID</span>
           <input type="text" id="movieTitle" name="movieTitle" placeholder="영화제목을 입력하세요" />
-          <button id="btnIdCheck">아이디 중복확인</button>
         </label>
       </div>
       <div class="inputBox">
@@ -20,19 +19,27 @@
       <div class="inputBox">
         <label>
           <span class="label">장르</span>
-          <input type="text" id="genre" name="genre" placeholder="장르를 입력하세요" />
+          <div class="">
+            <ul class="genreList">
+              <li><span>스릴러</span><input type="checkbox" value="스릴러" name="genre" /></li>
+              <li><span>로맨스</span><input type="checkbox" value="로맨스" name="genre" /></li>
+              <li><span>액션</span><input type="checkbox" value="액션" name="genre" /></li>
+              <li><span>호러</span><input type="checkbox" value="호러" name="genre" /></li>
+              <li><span>코메디</span><input type="checkbox" value="코메디" name="genre" /></li>
+            </ul>
+          </div>
         </label>
       </div>
       <div class="inputBox">
         <label>
           <span class="label">줄거리</span>
-          <textarea name="dsec" id="dsec" cols="30" rows="10"></textarea>
+          <textarea name="desc" id="desc" cols="30" rows="10"></textarea>
         </label>
       </div>
       <div class="inputBox">
         <label>
           <span class="label">평점</span>
-          <input type="text" id="point" name="point" />
+          <input type="number" max="5" min="0" step="0.1" id="point" name="point" />
         </label>
       </div>
       <div class="inputBox">

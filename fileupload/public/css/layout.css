@@ -35,6 +35,7 @@ a {
   padding: 100px 0;
   width: 1200px;
   margin: auto;
+  position: relative;
 }
 #contents .title {
   font-size: 36px;
@@ -43,6 +44,95 @@ a {
   border-bottom: 2px solid #ccc;
   margin-bottom: 50px;
   text-transform: uppercase;
+}
+#contents .movieDetail {
+  overflow: hidden;
+  background-color: #6543b1;
+}
+#contents .movieDetail img {
+  display: flex;
+  width: 72%;
+  background-repeat: no-repeat;
+  z-index: -1;
+  border: 1px solid #6543b1;
+}
+#contents .movieDetail .movieMain {
+  position: absolute;
+  display: flex;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  top: 35%;
+  backdrop-filter: brightness(0.5);
+  text-align: left;
+  padding: 20px 0 30px 50px;
+}
+#contents .movieDetail .movieMain .movieDesc {
+  font-weight: 700;
+  font-size: 21px;
+  color: #f8f8f8;
+  flex-grow: 8;
+}
+#contents .movieDetail .movieMain .movieDesc .movieTitle {
+  font-size: 45px;
+  font-weight: 700;
+  text-shadow: #333 1px 0 10px;
+  color: #6543b1;
+}
+#contents .movieDetail .movieMain .movieDesc li {
+  padding: 7px 0;
+  margin: 10px 0;
+  font-weight: 400;
+  line-height: 1.5;
+  word-break: keep-all;
+  text-shadow: #333 1px 0 10px;
+}
+#contents .movieDetail .movieMain .movieImg {
+  flex-grow: 2;
+}
+#contents .movieDetail .movieMain .movieImg img {
+  display: flex;
+  width: 300px;
+  height: auto;
+  border: none;
+  margin: 20px 20px;
+  box-shadow: 1px 1px 5px #111;
+  border-radius: 5px;
+}
+#contents .movieDetail .movieMain .movieImg .starData {
+  width: 130px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+  margin: 0 auto;
+  border: 1px solid #fff;
+  border-radius: 30px;
+}
+#contents .movieDetail .movieMain .movieImg .starData .starIcon {
+  display: flex;
+  margin: 0 auto;
+  vertical-align: middle;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 26px;
+}
+#contents .movieDetail .movieMain .movieImg .starData .starIcon .material-icons {
+  display: flex;
+  font-weight: 700;
+  color: rgb(224, 71, 33);
+  font-size: 26px;
+  align-items: center;
+  vertical-align: center;
+  margin-right: 10px;
+  text-align: center;
+}
+#contents .movieData {
+  align-items: center;
+  justify-content: center;
 }
 
 .formBox .inputBox {
@@ -58,6 +148,7 @@ a {
 }
 .formBox .inputBox label input[type=text],
 .formBox .inputBox label input[type=password],
+.formBox .inputBox label input[type=number],
 .formBox .inputBox label select {
   height: 50px;
   border: 1px solid #ccc;
@@ -74,6 +165,14 @@ a {
   background-color: #111;
   padding: 10px;
 }
+.formBox .inputBox label textarea {
+  flex-grow: 1;
+  height: 300px;
+  resize: none;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
 .formBox .inputBox label #userID,
 .formBox .inputBox label #userPW,
 .formBox .inputBox label #userName,
@@ -82,6 +181,51 @@ a {
 }
 .formBox .inputBox label #userJob {
   width: 200px;
+}
+.formBox .inputBox label .genreList {
+  display: flex;
+}
+.formBox .inputBox label .genreList li {
+  margin-right: 20px;
+}
+
+.table {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.table .head {
+  display: table-header-group;
+  background-color: #f8f8f8;
+}
+.table .head span {
+  display: table-cell;
+  border-top: 1px solid #333;
+  text-align: center;
+  padding: 20px 0;
+  font-weight: 700;
+}
+.table .body {
+  display: table-row-group;
+  width: 100%;
+}
+.table .body > li {
+  display: table-row;
+  width: 100%;
+}
+.table .body > li .column {
+  display: table-cell;
+  padding: 20px 0;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  vertical-align: middle;
+}
+.table .body > li .subject {
+  text-align: left;
+}
+.table .body > li .subject:hover {
+  text-decoration: underline;
+  color: #1f87db;
 }
 
 .btns {
