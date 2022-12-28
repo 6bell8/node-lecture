@@ -8,9 +8,9 @@ module.exports = () => {
 
   try {
     mongoose.connect(process.env.DB, connectionParams);
-    console.log("Connected to database successfully!");
+    console.log("데이터 베이스와 연결되었습니다!");
   } catch (error) {
     console.log(error);
-    console.log("could not connection");
+    console.log("연결에 실패하였습니다.");
   }
 };

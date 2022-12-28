@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const path = require("path");
 const cors = require("cors");
 const connection = require("./db");
 const userRoutes = require("./routes/users");
@@ -14,6 +15,10 @@ app.use(express.json());
 app.use(cors());
 
 //routes
+// app.use("/routes", express.static(userRoutes));
+// app.use("/routes", express.static(authRoutes));
+// app.use('/example', express.static(path.join(__dirname, 'public')));
+
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 

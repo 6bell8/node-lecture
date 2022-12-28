@@ -11,17 +11,23 @@ router.post("/", async (req, res) => {
 
     const user = await User.findOne({ email: req.body.email });
     if (!user)
-      return res.status(401).send({ message: "Invalid Email or Password" });
+      return res
+        .status(401)
+        .send({ message: "등록되지않은 이메일 혹은 비밀번호입니다." });
 
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
     );
     if (!validPassword)
-      return res.status(401).send({ message: "Invalid Email or Password" });
+      return res
+        .status(401)
+        .send({ message: "등록되지않은 이메일 혹은 비밀번호입니다." });
 
     const token = user.generateAuthToken();
-    res.status(200).send({ data: token, message: "logged in successfully" });
+    res
+      .status(200)
+      .send({ data: token, message: "로그인이 성공적으로 완료 되었습니다." });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
   }
