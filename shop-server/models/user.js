@@ -1,32 +1,44 @@
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
+const router = require("express").Router();
+const { User } = require("../models/user");
+const bcrypt = require("bcrypt");
 const Joi = require("joi");
-const passwordComplexity = require("joi-password-complexity");
 
-const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true },
-  password: { type: String, required: true },
+router.post("/", async (req, res) => {
+  try {
+    const { error } = validate(req.body);
+    if (error)
+      return res.status(400).send({ message: error.details[0].message });
+
+    const user = await User.findOne({ email: req.body.email });
+    if (!user)
+      return res
+        .status(401)
+        .send({ message: "등록되지않은 이메일 혹은 비밀번호입니다." });
+
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!validPassword)
+      return res
+        .status(401)
+        .send({ message: "등록되지않은 이메일 혹은 비밀번호입니다." });
+
+    const token = user.generateAuthToken();
+    res
+      .status(200)
+      .send({ data: token, message: "로그인이 성공적으로 완료 되었습니다." });
+  } catch (error) {
+    res.status(500).send({ message: "내부 서버 오류" });
+  }
 });
-
-userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
-    expiresIn: "7d",
-  });
-  return token;
-};
-
-const User = mongoose.model("user", userSchema);
 
 const validate = (data) => {
   const schema = Joi.object({
-    firstName: Joi.string().required().label("First Name"),
-    lastName: Joi.string().required().label("Last Name"),
-    email: Joi.string().email().required().label("Email"),
-    password: passwordComplexity().required().label("Password"),
+    email: Joi.string().email().required().label("이메일"),
+    password: Joi.string().required().label("비밀번호"),
   });
   return schema.validate(data);
 };
 
-module.exports = { User, validate };
+module.exports = router;

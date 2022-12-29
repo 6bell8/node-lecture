@@ -1,12 +1,11 @@
-# fly.toml file generated for small-bird-2306 on 2022-12-27T11:46:48+09:00
+# fly.toml file generated for blue-lake-2348 on 2022-12-28T13:36:54+09:00
 
-app = "small-bird-2306"
+app = "blue-lake-2348"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
-  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []

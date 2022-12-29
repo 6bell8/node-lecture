@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     await new User({ ...req.body, password: hashPassword }).save();
     res.status(201).send({ message: "사용자 등록이 완료되었습니다!" });
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({ message: "서버에서 발생한 에러입니다" });
   }
 });
 

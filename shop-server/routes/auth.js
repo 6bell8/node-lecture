@@ -29,14 +29,14 @@ router.post("/", async (req, res) => {
       .status(200)
       .send({ data: token, message: "로그인이 성공적으로 완료 되었습니다." });
   } catch (error) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({ message: "내부 서버 오류" });
   }
 });
 
 const validate = (data) => {
   const schema = Joi.object({
-    email: Joi.string().email().required().label("Email"),
-    password: Joi.string().required().label("Password"),
+    email: Joi.string().email().required().label("이메일"),
+    password: Joi.string().required().label("비밀번호"),
   });
   return schema.validate(data);
 };
